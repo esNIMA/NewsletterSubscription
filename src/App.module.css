@@ -63,10 +63,11 @@
   border-radius: 10px 10px;
 }
 .EmailBoxContainer {
-  padding-bottom: 100px;
+  padding-bottom: 80px;
 }
 .EmailBox:focus {
   background-color: hsl(0, 5%, 99%);
+  padding-left: 20px;
 }
 
 .SubmitButton {
@@ -111,7 +112,6 @@
   color: hsl(235, 18%, 26%);
   font-size: 40px;
   font-weight: bolder;
- 
 }
 .ThankYoubutton {
   width: 300px;
@@ -121,7 +121,8 @@
   color: aliceblue;
   margin-left: 20px;
   border-radius: 10px;
+  font-size: 25px;
 }
-.ThankYoubutton:hover{
+.ThankYoubutton:hover {
   background-color: hsl(234, 30%, 27%);
 }

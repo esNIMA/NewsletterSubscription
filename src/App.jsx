@@ -6,36 +6,47 @@ import { useState } from "react";
 
 export default function App() {
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const [email, setEmail] = useState("");
   return (
     <div className={styles.App}>
       {isValidEmail ? (
-        <ThankYou />
+        <ThankYou email={email} setIsValidEmail={setIsValidEmail} />
       ) : (
         <Container
           isValidEmail={isValidEmail}
           setIsValidEmail={setIsValidEmail}
+          email={email}
+          setEmail={setEmail}
         />
       )}
     </div>
   );
 }
 
-function Container({ setIsValidEmail }) {
+function Container({ setIsValidEmail, setEmail, email }) {
   Container.propTypes = {
-    setIsValidEmail: PropTypes.func.isRequired, // Assuming setEmail is a required function
+    email: PropTypes.string.isRequired,
+    setEmail: PropTypes.func.isRequired,
+    setIsValidEmail: PropTypes.func.isRequired,
   };
   return (
     <div className={styles.Container}>
-      <LeftComponent setIsValidEmail={setIsValidEmail} />
+      <LeftComponent
+        setIsValidEmail={setIsValidEmail}
+        email={email}
+        setEmail={setEmail}
+      />
       <Picture />
     </div>
   );
 }
-function LeftComponent({ setIsValidEmail }) {
+function LeftComponent({ setIsValidEmail, setEmail, email }) {
   LeftComponent.propTypes = {
-    setIsValidEmail: PropTypes.func.isRequired, // Assuming setEmail is a required function
+    email: PropTypes.string.isRequired,
+    setEmail: PropTypes.func.isRequired,
+    setIsValidEmail: PropTypes.func.isRequired,
   };
-  const [email, setEmail] = useState("");
+
   return (
     <div className={styles.LeftComponent}>
       <CTA />
@@ -68,8 +79,8 @@ function CTA() {
 }
 function EmailBox({ setEmail }) {
   EmailBox.propTypes = {
-    email: PropTypes.string.isRequired, // Assuming email is a required string
-    setEmail: PropTypes.func.isRequired, // Assuming setEmail is a required function
+    email: PropTypes.string.isRequired,
+    setEmail: PropTypes.func.isRequired,
   };
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -101,16 +112,27 @@ function SubmitButton({ email, setIsValidEmail }) {
       setIsValidEmail(false);
     }
   };
+  
   return (
     <div className={styles.SubmitButtonContainer}>
-      <button className={styles.SubmitButton} onClick={handleSubmit}>
+      <button
+        className={styles.SubmitButton}
+        onClick={handleSubmit}
+      >
         Subscribe to monthly newsletter
       </button>
     </div>
   );
 }
 
-function ThankYou() {
+function ThankYou({ email, setIsValidEmail }) {
+  ThankYou.propTypes = {
+    email: PropTypes.string.isRequired,
+    setIsValidEmail: PropTypes.func.isRequired,
+  };
+  const handleComeback = () => {
+    setIsValidEmail(false);
+  };
   return (
     <div className={styles.ThankYouContainer}>
       <svg
@@ -133,11 +155,22 @@ function ThankYou() {
             d="m18.286 34.686 8.334 7.98 19.094-18.285"
           />
         </g>
-      </svg> <br/> 
-      <span className={styles.ThankYouTitle}>Thanks for subscription!</span> <br/>
-      <p>a confirmation email has been sent for <span>your email here</span>
-      please enter it and click the botton to confirm your subscription</p> <br/>
-      <button className={styles.ThankYoubutton}>dismis</button>
+      </svg>{" "}
+      <br />
+      <span className={styles.ThankYouTitle}>
+        Thanks for subscription!
+      </span>{" "}
+      <br />
+      <p>
+        a confirmation email has been sent for:
+        <br /> <span style={{ fontWeight: "bold" }}>{email}</span>
+        <br />
+        please enter it and click the botton to confirm your subscription
+      </p>{" "}
+      <br />
+      <button className={styles.ThankYoubutton} onClick={handleComeback}>
+        dismis
+      </button>
     </div>
   );
 }
